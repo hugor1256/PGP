@@ -1,14 +1,15 @@
-using PGP.Context;
 using Microsoft.EntityFrameworkCore;
+using PGP.Helpers;
+using PGP.Repository.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.InstallServicesInAssembly(builder.Configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-builder.Services.AddDbContext<ContextDb>(o =>
+builder.Services.AddDbContext<PgpContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 
 builder.Services.AddEndpointsApiExplorer();
