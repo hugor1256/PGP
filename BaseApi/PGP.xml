@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PGP</name>
+    </assembly>
+    <members>
+        <member name="M:PGP.Controllers.UsuariosController.Get(PGP.Services.UsuariosService,System.Int32)">
+            <summary>
+            Retorna os dados do usuario por Id
+            </summary>
+            <param name="service"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PGP.Migrations.CreateTableUsuarios">
+            <inheritdoc />
+        </member>
+        <member name="M:PGP.Migrations.CreateTableUsuarios.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PGP.Migrations.CreateTableUsuarios.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PGP.Migrations.CreateTableUsuarios.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

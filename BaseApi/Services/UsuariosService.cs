@@ -16,7 +16,7 @@ public class UsuariosService
         _mapper = mapper;
     }
 
-    public async Task<UsuariosRecord> RetornarUsuarios(int id)
+    public async Task<UsuariosRecord> RetornarUsuarioPorId(int id)
     {
         var usuario = _usuariosRepository.ObterPorId(id);
 
