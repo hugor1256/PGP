@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using PGP.Archteture;
+using PGP.Controllers.Base;
 using PGP.Records;
 using PGP.Services;
 
 namespace PGP.Controllers;
 
-public class UsuariosController : ControllerBase
+public class UsuariosController : PgpController
 {
     /// <summary>
     /// Retorna os dados do usuario por Id
@@ -23,15 +24,14 @@ public class UsuariosController : ControllerBase
         {
             var usuario = await service.RetornarUsuarioPorId(id);
             
+            if (service.Invalid())
+                return BadRequest(ApiResponse<string>.Fail(string.Join("|", service.NotificationsListMenssages())));
+            
             return Ok(ApiResponse<UsuariosRecord>.Success(usuario));
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            return StatusCode(500, ApiResponse<string>.Fail(e.Message));
         }
-
-        return null;
-
     }
 }
