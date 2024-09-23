@@ -12,6 +12,14 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:PGP.Controllers.UsuariosController.Post(PGP.Services.UsuariosService,PGP.Records.CadastrarUsuario)">
+            <summary>
+            Retorna os dados do usuario por Id
+            </summary>
+            <param name="service"></param>
+            <param name="usuario"></param>
+            <returns></returns>
+        </member>
         <member name="T:PGP.Migrations.CreateTableUsuarios">
             <inheritdoc />
         </member>
@@ -23,6 +31,55 @@
         </member>
         <member name="M:PGP.Migrations.CreateTableUsuarios.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
+        </member>
+        <member name="M:PGP.Services.Base.IServiceBase.SetUsuario(System.String)">
+            <summary>
+            Guardar as informações do usuário autenticado. (utilizar na controller)
+            </summary>
+            <param name="usuario"></param>
+        </member>
+        <member name="M:PGP.Services.Base.IServiceBase.SetPerfil(System.String)">
+            <summary>
+            Guardar o perfil do usuário autenticado (utilizar na controller)
+            </summary>
+            <param name="perfil"></param>
+        </member>
+        <member name="M:PGP.Services.Base.IServiceBase.SetCPF(System.String)">
+            <summary>
+            Guardar o número do cpf do usuário autenticado (utilizar na controller)
+            </summary>
+            <param name="cpf"></param>
+        </member>
+        <member name="M:PGP.Services.Base.IServiceBase.GetNomeUsuario">
+            <summary>
+            Obtem o nome do usuário (utilizar na service)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PGP.Services.Base.IServiceBase.GetPerfilUsuario">
+            <summary>
+            Obtem o perfil do usuário (utilizar na service)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PGP.Services.Base.IServiceBase.GetCPF">
+            <summary>
+            Obtem o número de CPF do usuário (utilizar na service)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PGP.Services.UsuariosService.RetornarUsuarioPorId(System.Int32)">
+            <summary>
+            Retorna os dados do usuario por Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PGP.Services.UsuariosService.CadastrarUsuario(PGP.Records.CadastrarUsuario)">
+            <summary>
+            Cadastra um novo usuário
+            </summary>
+            <param name="usuario"></param>
         </member>
     </members>
 </doc>
