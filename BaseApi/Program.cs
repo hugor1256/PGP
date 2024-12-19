@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PGP.Helpers;
+using PGP.Records;
 using PGP.Repository.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<PgpContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
+
+builder.Services.Configure<TokenJwtRecord>(builder.Configuration.GetSection("TokenJwtRecord"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

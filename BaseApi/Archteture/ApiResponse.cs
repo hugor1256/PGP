@@ -11,7 +11,6 @@ public class ApiResponse<T>
     {
         return new ApiResponse<T> { Succeeded = false, Message = errorMessage, ShowMessage = showMessage};
     }
-
     public static ApiResponse<T> Success(T data,string? message = null, bool showMessage = true)
     {
         return new ApiResponse<T> { Succeeded = true, Data = data, Message = message, ShowMessage = showMessage };

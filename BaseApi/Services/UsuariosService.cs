@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using AutoMapper;
 using FluentSGI.Notification;
+using PGP.Domain;
 using PGP.Entities;
 using PGP.Helpers;
 using PGP.Records;
@@ -8,12 +10,20 @@ using PGP.Services.Base;
 
 namespace PGP.Services;
 
+/// <summary>
+/// Service de funcionalidades relacionadas ao usuario (UsuarioController)
+/// </summary>
 public class UsuariosService : ServiceBase
 {
 
     private readonly UsuariosRepository _usuariosRepository;
     private readonly IMapper _mapper;
 
+    /// <summary>
+    /// Injeção de dependencia
+    /// </summary>
+    /// <param name="usuariosRepository"></param>
+    /// <param name="mapper"></param>
     public UsuariosService(UsuariosRepository usuariosRepository, IMapper mapper)
     {
         _usuariosRepository = usuariosRepository;
@@ -25,10 +35,8 @@ public class UsuariosService : ServiceBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public ListarUsuario RetornarUsuarioPorId(int id)
+    public ListarUsuarioRecord RetornarUsuarioPorId(int id)
     {
-        try
-        {
             var usuario = _usuariosRepository.ObterPorId(id);
         
             AddNotifications(new Validation().Required()
@@ -38,36 +46,27 @@ public class UsuariosService : ServiceBase
             if (Invalid())
                 return null;
         
-            return _mapper.Map<ListarUsuario>(usuario);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+            return _mapper.Map<ListarUsuarioRecord>(usuario);
     }
 
     /// <summary>
     /// Cadastra um novo usuário
     /// </summary>
-    /// <param name="usuario"></param>
-    public void CadastrarUsuario(CadastrarUsuario usuario)
+    /// <param name="usuarioRecord"></param>
+    public void CadastrarUsuario(CadastrarUsuarioRecord usuarioRecord)
     {
-        try
-        {
-            
             AddNotifications(new Validation().Required()
-                .IsTrue(string.IsNullOrEmpty(usuario.Cpf), "CPF", "Informe o CPF do usuario")
-                .IsTrue(string.IsNullOrEmpty(usuario.Login), "Login", "Login o CPF do usuario")
-                .IsNotCPF(usuario.Cpf)
-                .IsLess(usuario.Cpf.Trim().Length, 11, "CPF", "Formato do CPF inválido")
-                .IsTrue(usuario.Senha.IsStrongPassword(), "Senha", "Senha fraca")
-                .IsNotEqual(usuario.Senha, usuario.ConfirmarSenha, "Senha/ConfimarSenha","As senhas não coincidem"));
+                .IsTrue(string.IsNullOrEmpty(usuarioRecord.Cpf), "CPF", "Informe o CPF do usuario")
+                .IsTrue(string.IsNullOrEmpty(usuarioRecord.Login), "Login", "Login o CPF do usuario")
+                .IsNotCPF(usuarioRecord.Cpf)
+                .IsLess(usuarioRecord.Cpf.Trim().Length, 11, "CPF", "Formato do CPF inválido")
+                .IsTrue(usuarioRecord.Senha.IsStrongPassword(), "Senha", "Senha fraca")
+                .IsNotEqual(usuarioRecord.Senha, usuarioRecord.ConfirmarSenha, "Senha/ConfimarSenha","As senhas não coincidem"));
 
             if (Invalid()) 
                 return;
 
-            var novoUsuario = _mapper.Map<Usuario>(usuario);
+            var novoUsuario = _mapper.Map<Usuario>(usuarioRecord);
             
             novoUsuario.UsuarioCriacao = "Hugo";
             novoUsuario.DataCriacao = DateTime.Today;
@@ -75,12 +74,27 @@ public class UsuariosService : ServiceBase
 
             _usuariosRepository.Inserir(novoUsuario);
             _usuariosRepository.Salvar();
-            
-        }
-        catch (Exception e)
+    }
+
+    public async Task<List<Claim>> LogarUsuario(LogarUsuarioRecord usuario)
+    {
+        var user = _usuariosRepository.ObterPorCpf(usuario.Cpf.SomenteNumeros());
+        
+        AddNotifications(new Validation().Required()
+            .Null(user,"user","Usuário não encontrado")
+            .ValidateAll()
+            .IsNotCPF(usuario.Cpf, "CPF", "CPF informado invalido")
+            .IsNotEqual(usuario.Senha.CriptografarSenha(), user.Senha,"senha","Senha inválida")
+        );
+
+        if (Invalid())
+            return new List<Claim>();
+        
+        return new List<Claim>
         {
-            Console.WriteLine(e);
-            throw;
-        }
+            new Claim("CPF", user.Cpf),
+            new Claim("Login", user.Login),
+            new Claim("Perfis", PerfilEnum.Usuario.GetDescription()),
+        };
     }
 }

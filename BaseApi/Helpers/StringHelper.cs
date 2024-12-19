@@ -5,7 +5,7 @@ namespace PGP.Helpers;
 
 public static class StringHelper
 {
-    public static string EncryptPassword(this string password)
+    public static string CriptografarSenha(this string password)
     {
         var salt = "TFSK3YS@LT&KEY"u8.ToArray();
 

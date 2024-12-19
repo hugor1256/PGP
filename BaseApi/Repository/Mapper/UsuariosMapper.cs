@@ -9,10 +9,10 @@ public class UsuariosMapper : Profile
 {
     public UsuariosMapper()
     {
-        CreateMap<Usuario, ListarUsuario>();
+        CreateMap<Usuario, ListarUsuarioRecord>();
         
-        CreateMap<CadastrarUsuario, Usuario>()
+        CreateMap<CadastrarUsuarioRecord, Usuario>()
             .ForMember(s => s.Cpf, d => d.MapFrom<string>(s => s.Cpf.SomenteNumeros()))
-            .ForMember(s => s.Senha, d => d.MapFrom<string>(s => s.Senha.EncryptPassword()));
+            .ForMember(s => s.Senha, d => d.MapFrom<string>(s => s.Senha.CriptografarSenha()));
     }
 }

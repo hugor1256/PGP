@@ -12,11 +12,19 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PGP.Controllers.UsuariosController.Post(PGP.Services.UsuariosService,PGP.Records.CadastrarUsuario)">
+        <member name="M:PGP.Controllers.UsuariosController.Post(PGP.Services.UsuariosService,PGP.Records.CadastrarUsuarioRecord)">
             <summary>
             Retorna os dados do usuario por Id
             </summary>
             <param name="service"></param>
+            <param name="usuarioRecord"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PGP.Controllers.UsuariosController.GetDados(Microsoft.Extensions.Options.IOptions{PGP.Records.TokenJwtRecord},PGP.Services.UsuariosService,PGP.Records.LogarUsuarioRecord)">
+            <summary>
+            Loga o Usuario na aplicação
+            </summary>
+            <param name="tokenManagement"></param>
             <param name="usuario"></param>
             <returns></returns>
         </member>
@@ -31,6 +39,23 @@
         </member>
         <member name="M:PGP.Migrations.CreateTableUsuarios.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
+        </member>
+        <member name="T:PGP.Records.TokenJwtRecord">
+            <summary>
+            Classe de autenticação do JWT Token
+            </summary>
+        </member>
+        <member name="T:PGP.Records.TokenResult">
+            <summary>
+            Resultado do Token gerado
+            </summary>
+        </member>
+        <member name="M:PGP.Repository.Repositories.UsuariosRepository.ObterPorCpf(System.String)">
+            <summary>
+            Obtem o ususario pelo CPF
+            </summary>
+            <param name="cpf"></param>
+            <returns></returns>
         </member>
         <member name="M:PGP.Services.Base.IServiceBase.SetUsuario(System.String)">
             <summary>
@@ -68,6 +93,18 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:PGP.Services.UsuariosService">
+            <summary>
+            Service de funcionalidades relacionadas ao usuario (UsuarioController)
+            </summary>
+        </member>
+        <member name="M:PGP.Services.UsuariosService.#ctor(PGP.Repository.Repositories.UsuariosRepository,AutoMapper.IMapper)">
+            <summary>
+            Injeção de dependencia
+            </summary>
+            <param name="usuariosRepository"></param>
+            <param name="mapper"></param>
+        </member>
         <member name="M:PGP.Services.UsuariosService.RetornarUsuarioPorId(System.Int32)">
             <summary>
             Retorna os dados do usuario por Id
@@ -75,11 +112,11 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PGP.Services.UsuariosService.CadastrarUsuario(PGP.Records.CadastrarUsuario)">
+        <member name="M:PGP.Services.UsuariosService.CadastrarUsuario(PGP.Records.CadastrarUsuarioRecord)">
             <summary>
             Cadastra um novo usuário
             </summary>
-            <param name="usuario"></param>
+            <param name="usuarioRecord"></param>
         </member>
     </members>
 </doc>
