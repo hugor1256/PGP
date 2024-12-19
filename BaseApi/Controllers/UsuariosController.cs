@@ -9,7 +9,9 @@ using PGP.Services;
 
 namespace PGP.Controllers;
 
-[Route("Usuarios")]
+[Route("PgpApi/Usuarios")]
+[ApiController]
+[ApiConventionType(typeof(DefaultApiConventions))]
 public class UsuariosController : PgpController
 {
     /// <summary>
@@ -80,8 +82,7 @@ public class UsuariosController : PgpController
     public async Task<IActionResult> GetDados([FromServices] IOptions<TokenJwtRecord> tokenManagement, [FromServices] UsuariosService service, [FromBody] LogarUsuarioRecord usuario)
     {
         try
-        {
-            var logarUsuario = await service.LogarUsuario(usuario);
+        { var logarUsuario = await service.LogarUsuario(usuario);
         
             if (service.Invalid())
                 return BadRequest(ApiResponse<string>.Fail(string.Join("|", service.NotificationsListMenssages())));
