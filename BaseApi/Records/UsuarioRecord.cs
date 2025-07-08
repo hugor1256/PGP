@@ -17,4 +17,13 @@ public record LogarUsuarioRecord(
     string Cpf,
     string Senha
 );
+
+    public record DicChaveValorRecord(
+    string chave,
+    string valor
+    );
+
+
+    public record DicRecord(
+        List<DicChaveValorRecord> agr);
     

@@ -82,7 +82,8 @@ public class UsuariosController : PgpController
     public async Task<IActionResult> GetDados([FromServices] IOptions<TokenJwtRecord> tokenManagement, [FromServices] UsuariosService service, [FromBody] LogarUsuarioRecord usuario)
     {
         try
-        { var logarUsuario = await service.LogarUsuario(usuario);
+        {
+            var logarUsuario = await service.LogarUsuario(usuario);
         
             if (service.Invalid())
                 return BadRequest(ApiResponse<string>.Fail(string.Join("|", service.NotificationsListMenssages())));
@@ -97,6 +98,30 @@ public class UsuariosController : PgpController
                 tokenResult.tokenExpiresIn,
                 perfil = PerfilEnum.Usuario.GetDescription()
             }));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, ApiResponse<string>.Fail(e.Message));
+        }
+    }
+    
+    /// <summary>
+    /// Retorna os dados do usuario por Id
+    /// </summary>
+    /// <param name="service"></param>
+    /// <returns></returns>
+    [ProducesResponseType(typeof(ApiResponse<string>), 200)]
+    [ProducesResponseType(typeof(ApiResponse<string>), 400)]
+    [ProducesResponseType(typeof(ApiResponse<string>), 500)]
+    [HttpPost]
+    public IActionResult Get([FromServices] UsuariosService service, [FromBody] List<DicRecord> record)
+    {
+        try
+        {
+          service.ManipularDictionary(record);
+            
+        return Ok(ApiResponse<string>.Success("OK"));
+
         }
         catch (Exception e)
         {

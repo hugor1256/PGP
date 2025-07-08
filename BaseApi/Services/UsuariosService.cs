@@ -97,4 +97,17 @@ public class UsuariosService : ServiceBase
             new Claim("Perfis", PerfilEnum.Usuario.GetDescription()),
         };
     }
+
+
+    public void ManipularDictionary(List<DicRecord> record)
+    {
+        var dic = record.FirstOrDefault()!.agr.ToDictionary(t => t.chave, t => t.valor);
+        var usuario = _usuariosRepository.ObterTodos().ToList();
+
+        foreach (var u in usuario)
+        {
+            if (!dic.ContainsKey(u.Cpf))
+                dic.Add(u.Cpf, u.Login);
+        }
+    }
 }
